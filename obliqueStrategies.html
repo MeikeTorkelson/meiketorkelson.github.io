@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Oblique Strategies">
+  <meta name="author" content="Meike Torkelson">
+
+  <title>Oblique Strategies</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/melody.ico" type="image/x-icon" />
+  <link rel="icon" href="img/melody.ico">
+
+  <style>
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+
+    }
+  </style>
+
+</head>
+
+
+
+<body id="page-top">
+
+
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
+
+
+  <!-- Header -->
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading text-uppercase">Oblique Strategies</div>
+                <div class="intro-lead-in">Got writers block? Or just feeling like you're caught in a creative loop? These cards can help you.</div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Contents -->
+    <section class="bg-light page-section" id="main-body">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-12 text-left">
+            
+  
+        <form id="selectNextHeader" class="form-horizontal" method="post" action="" hidden>
+          <table>
+            <tr>
+              <td><input type="button" class="btn btn-primary" id="getRandom" value="Get Random" onClick="selectCard(true)"></td>
+              <td>    </td>
+              <td><input type="button" class="btn btn-secondary" id="getNext" value="Get Next" onClick="selectCard(false)"></td>
+            </tr>
+          </table>	
+        </form>
+        <p></p>
+  
+  
+        <table class="p-3 mb-2 bg-primary text-white" id="cardTable" hidden>
+
+          <tr>
+            <td><img src="img/lightbulb2.png" width="20%" class="center"></td>
+          </tr>
+          <caption id="cardCaption" ></caption>
+          <tr>
+            <th>
+              <h2 id="cardTitle"></h2>
+            </th>
+          </tr>
+          
+
+        </table>
+  
+        <form id="welcomeForm" class="form-horizontal" method="post" action="" >
+            <p>Welcome to Oblique Strategies!</p>
+            <p>These cards were developed by musical produced Brian Eno with Peter Schmidt. <a href="https://en.wikipedia.org/wiki/Oblique_Strategies">Find more about them here.</a></p>
+            <p>The cards were developed to help bands caught in a creative rut. Each one contains a creative restraint, and you're encouraged to work with it and embrace it.</p>
+            <p>Try not to overthink it, embrace it, work with it and see where it takes you. Most importantly, learn.</p>
+            <p>The important thing to recognise is that doing and creating momentum is more important than giving into paralysis.</p>
+            <p><a href="https://github.com/joelparkerhenderson/oblique-strategies">I have borrowed from this list</a>, but restyled a few to make more appropriate for writing.</p>
+            
+            <iframe class="center" width="560" height="315" src="https://www.youtube.com/embed/N7wF2AdVy2Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p><i><center>A great TED talk by Tim Harford that covers Brian Eno's oblique strategies.</center></i></p>
+
+            <p><b>To try for yourself, either choose a card randomly or work through the deck...</b></p>
+  
+  
+          <table>
+            <tr>
+              <td><input type="button" class="btn btn-primary" id="pickRandom" value="Select Random" onClick="selectCard(true)"></td>
+              <td>    </td>
+              <td><input type="button" class="btn btn-secondary" id="pickFirst" value="Work from first" onClick="selectCard(false)"></td>
+            </tr>
+          </table>
+  
+        </form>
+  
+        <form id="selectNext" class="form-horizontal" method="post" action="" hidden>
+          <p>Want another card?</p>
+  
+  
+          <table>
+            <tr>
+              <td><input type="button" class="btn btn-primary" id="getRandom" value="Get Random" onClick="selectCard(true)"></td>
+              <td>    </td>
+              <td><input type="button" class="btn btn-secondary" id="getNext" value="Get Next" onClick="selectCard(false)"></td>
+            </tr>
+          </table>
+  
+        </form>
+  
+  
+  
+  
+  
+        <script>
+          var dataSetup = false;
+  
+                  
+  
+  
+  
+          function selectCard(chooseRandom) {
+  
+            if (dataSetup == false) {
+              setUpCards();
+              dataSetup = true;
+            }
+  
+            if(chooseRandom) {
+              cardData.randomCard();
+            } else {
+              cardData.nextCard();
+            }
+  
+            displayCard();
+            document.getElementById('welcomeForm').hidden = true;
+            document.getElementById('cardTable').hidden = false;
+            document.getElementById('selectNext').hidden = false;
+            document.getElementById('selectNextHeader').hidden = false;
+          }
+  
+          var cardData = {
+            currentCard: -1,
+            itemSize: 0,
+            caption: 0,
+            title: 0,
+            description: 0,
+  
+            //add: function (providedTitle, providedDescription)
+            add: function (providedTitle, providedDescription) {
+              if ( this.itemSize == 0 ) {
+                // Initialise
+                this.caption=[];
+                this.title = [];
+                //this.description = [];
+              } 
+        
+              this.title.push(providedTitle);
+              //this.description.push(providedDescription);
+              this.itemSize = this.itemSize + 1;
+              this.caption.push("Card " + this.itemSize);
+            },
+  
+            randomCard: function () {
+              this.currentCard = parseInt(Math.random() * this.itemSize);
+            },
+  
+            nextCard: function () {
+              this.currentCard = this.currentCard + 1;
+              if(this.currentCard == this.itemSize) {
+                this.currentCard = 0;
+              }
+            },
+          };
+  
+          function displayCard () {
+            document.getElementById('cardCaption').innerHTML = cardData.caption[cardData.currentCard];
+            document.getElementById('cardTitle').innerHTML = cardData.title[cardData.currentCard];
+            //document.getElementById('cardDescription').innerHTML = cardData.description[cardData.currentCard];
+          }
+  
+  
+          function setUpCards() {
+            cardData.add( "A line has two sides, try both of them out");
+            cardData.add( "Abandon all the rules");
+            cardData.add( "Accept advice");
+            cardData.add( "Are there sections? Consider transitions");
+            cardData.add( "Be dirty, be messy");
+            cardData.add( "Bridges - build them or burn them");
+            cardData.add( "Bring everything to a head");
+            cardData.add( "Build it in layers");
+            cardData.add( "Build towards something");
+            cardData.add( "Change the roles around");
+            cardData.add( "Consider a sudden jump");
+            cardData.add( "Consult a friend, try their wildest ideas");
+            cardData.add( "Cut a vital connection");
+            cardData.add( "Dare the impossible");
+            cardData.add( "Dare to be inconsistent");
+            cardData.add( "Decorate, decorate");
+            cardData.add( "Define an area as `safe' and use it as an anchor");
+            cardData.add( "Destroy -nothing -the most important thing");
+            cardData.add( "Discard an axiom");
+            cardData.add( "Disconnect from desire");
+            cardData.add( "Discover the recipes you are using and abandon them");
+            cardData.add( "Distort time");
+            cardData.add( "Do nothing for as long as possible");
+            cardData.add( "Do something boring");
+            cardData.add( "Do the washing up");
+            cardData.add( "Do the words need changing?");
+            cardData.add( "Do we need holes?");
+            cardData.add( "Don't be afraid of things because they're easy to do");
+            cardData.add( "Don't be frightened to display your talents");
+            cardData.add( "Don't break the silence");
+            cardData.add( "Don't stress one thing more than another");
+            cardData.add( "Emphasize differences");
+            cardData.add( "Emphasize the flaws");
+            cardData.add( "Faced with a choice, do both");
+            cardData.add( "Find your balance");
+            cardData.add( "Follow a cliche");
+            cardData.add( "Follow a straight line");
+            cardData.add( "Follow terrible advice");
+            cardData.add( "Follow terrible advice, but make it work for you");
+            cardData.add( "Get your neck massaged");
+            cardData.add( "Ghost echoes");
+            cardData.add( "Give the game away");
+            cardData.add( "Give way to your worst impulse");
+            cardData.add( "Go slowly all the way round the outside");
+            cardData.add( "Go where no-one dares");
+            cardData.add( "Go where people expect");
+            cardData.add( "Honor thy error as a hidden intention");
+            cardData.add( "How would you have done it?");
+            cardData.add( "Humanize something free of error");
+            cardData.add( "Imagine your tale as a moving chain or caterpillar");
+            cardData.add( "Imagine your tale as a set of disconnected events");
+            cardData.add( "Infinitesimal gradations");
+            cardData.add( "Intentions <ul><li>credibility of</li><li>nobility of</li><li>humility of</li></ul>");
+            cardData.add( "Is it finished?");
+            cardData.add( "Is the tuning appropriate?");
+            cardData.add( "Is there something missing?");
+            cardData.add( "Just carry on");
+            cardData.add( "Listen in total darkness, or in a very large room, very quietly");
+            cardData.add( "Listen to the quiet voice");
+            cardData.add( "Listen to your inner child");
+            cardData.add( "Look at a very small object, look at its centre");
+            cardData.add( "Look at the order in which you do things");
+            cardData.add( "Look closely at the most embarrassing details and amplify them");
+            cardData.add( "Lowest common denominator check -single beat -single note -single");
+            cardData.add( "Make a blank valuable by putting it in an exquisite frame");
+            cardData.add( "Make a sudden, destructive unpredictable action; incorporate");
+            cardData.add( "Make an exhaustive list of everything you might do and do the last thing on the list");
+            cardData.add( "Make your least significant character significant, make your most insignificant");
+            cardData.add( "Mechanicalize something idiosyncratic");
+            cardData.add( "Mute and continue");
+            cardData.add( "Only one element of each kind");
+            cardData.add( "Open a random book, open a page, surf with the style of it");
+            cardData.add( "Overtly resist change");
+            cardData.add( "Remember those quiet evenings");
+            cardData.add( "Remove ambiguities and convert to specifics");
+            cardData.add( "Remove specifics and convert to ambiguities");
+            cardData.add( "Repetition is a form of change");
+            cardData.add( "Return to the scene of a crime");
+            cardData.add( "Reverse");
+            cardData.add( "Riff");
+            cardData.add( "Short circuit");
+            cardData.add( "Shut the door and listen from outside");
+            cardData.add( "Simple subtraction");
+            cardData.add( "Spectrum analysis");
+            cardData.add( "Switcheroo");
+            cardData.add( "Take a break");
+            cardData.add( "Take a sharp turn");
+            cardData.add( "Take away the elements in order of apparent non-importance");
+            cardData.add( "The inconsistency principle");
+            cardData.add( "Tidy up");
+            cardData.add( "Trust in the you of now");
+            cardData.add( "Trust your characters");
+            cardData.add( "Try something courageous");
+            cardData.add( "Turn it upside down");
+            cardData.add( "Twist the spine");
+            cardData.add( "Two characters are just talking - what are they saying?");
+            cardData.add( "Use an old idea");
+            cardData.add( "Use an unacceptable color");
+            cardData.add( "Use fewer notes");
+            cardData.add( "Use filters");
+            cardData.add( "Use unqualified people");
+            cardData.add( "What are you really thinking about just now? Incorporate");
+            cardData.add( "What is the reality of the situation?");
+            cardData.add( "What mistakes did you make last time?");
+            cardData.add( "What would the hero do?");
+            cardData.add( "What would the villain do?");
+            cardData.add( "What would your closest friend do?");
+            cardData.add( "What wouldn't you do?");
+            cardData.add( "Work against your better judgement");
+            cardData.add( "Work at a different speed");
+            cardData.add( "You are an engineer");
+            cardData.add( "You can only make one dot at a time");
+            cardData.add( "You don't have to be ashamed of using your own ideas");
+
+          }
+  
+        </script>
+  
+      </div>
+    </div>
+  </div>
+  </section>
+  
+  
+
+
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Meike Torkelson 2021</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/MeikeTorkelson">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item" hidden>
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.amazon.com/Meike-Torkelson/e/B07GV431N2">
+                <i class="fab fa-amazon"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item" >
+              <a data-toggle="modal" href="#aboutModal">About</a>
+            </li>
+            <li class="list-inline-item">
+              <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+  <!-- Sets up the header-->
+  <script src="js/main.navigation.js"></script> 
+
+  <!-- Footer Modals -->
+  <script src="js/footer.modals.js"></script> 
+
+</body>
+
+
+
+
+</html>
